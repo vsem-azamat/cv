@@ -1,0 +1,241 @@
+---
+import "../styles/global.css";
+
+const links = [
+  {
+    label: "github",
+    value: "/vsem-azamat",
+    href: "https://github.com/vsem-azamat",
+  },
+  {
+    label: "linkedin",
+    value: "/in/vsem-azamat",
+    href: "https://linkedin.com/in/vsem-azamat",
+  },
+  {
+    label: "telegram",
+    value: "@vsem-azamat",
+    href: "https://t.me/vsem-azamat",
+  },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script is:inline>
+      (() => {
+        const storageKey = "azamat-theme";
+        const isTheme = (value) => value === "light" || value === "dark";
+        let storedTheme = null;
+
+        try {
+          storedTheme = localStorage.getItem(storageKey);
+        } catch (error) {
+          storedTheme = null;
+        }
+
+        const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
+          .matches
+          ? "dark"
+          : "light";
+        const theme = isTheme(storedTheme) ? storedTheme : systemTheme;
+
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+
+    <title>Azamat Almazbek uulu — Software Engineer</title>
+    <meta
+      name="description"
+      content="Azamat Almazbek uulu builds products end to end: backend, integrations, ML pipelines, agents, and useful interfaces."
+    />
+
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230b0d0e'/%3E%3Ctext x='50' y='68' font-family='monospace' font-size='62' fill='%23f2c56b' text-anchor='middle'%3E%26gt;%3C/text%3E%3C/svg%3E"
+    />
+
+    <meta
+      property="og:title"
+      content="Azamat Almazbek uulu — Software Engineer"
+    />
+    <meta
+      property="og:description"
+      content="Products end to end: backend, integrations, ML pipelines, agents, and useful interfaces."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://azamat.io" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="bar">
+      <span class="host">azamat.io</span>
+      <span class="clock">local&nbsp; <b id="clock">--:--:--</b></span>
+      <button
+        class="theme-toggle"
+        id="themeToggle"
+        type="button"
+        aria-label="Switch color theme"
+      >
+        <span>theme</span>
+        <span class="theme-value" id="themeValue">dark</span>
+      </button>
+    </div>
+
+    <main>
+      <div class="status rise">
+        <span class="pulse"></span> available for new projects
+      </div>
+
+      <div class="command rise"><span class="prompt">&gt;</span> whoami</div>
+
+      <h1 class="name rise">
+        Azamat<br />
+        <span>Almazbek uulu</span>
+      </h1>
+
+      <div class="role rise">Software Engineer · ML Pipelines · Agents</div>
+
+      <p class="bio rise">
+        <span class="c">// </span>I build products end to end — fast, simple,
+        and clear.<br />
+        Backend, integrations, ML pipelines, agents.<br />
+        From idea to something people can actually use.
+      </p>
+
+      <div class="links">
+        <button
+          class="copy rise"
+          id="copyEmail"
+          type="button"
+          data-email="hi@azamat.io"
+        >
+          <span class="k">email</span><span class="v">hi@azamat.io</span><span
+            class="arr">copy &#10697;</span
+          >
+        </button>
+        {
+          links.map((link) => (
+            <a class="rise" href={link.href} target="_blank" rel="noopener">
+              <>
+                <span class="k">{link.label}</span>
+                <span class="v">{link.value}</span>
+                <span class="arr">&rarr;</span>
+              </>
+            </a>
+          ))
+        }
+      </div>
+    </main>
+
+    <footer>
+      <span>&copy; 2026 azamat</span>
+      <span class="dot">&middot;</span>
+      <span>made with coffee</span>
+    </footer>
+
+    <script is:inline>
+      const clock = document.getElementById("clock");
+      const themeToggle = document.getElementById("themeToggle");
+      const themeValue = document.getElementById("themeValue");
+      const storageKey = "azamat-theme";
+      const systemDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+      function getStoredTheme() {
+        try {
+          return localStorage.getItem(storageKey);
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function setStoredTheme(theme) {
+        try {
+          localStorage.setItem(storageKey, theme);
+        } catch (error) {
+          // localStorage can be unavailable in hardened browser contexts.
+        }
+      }
+
+      function getTheme() {
+        const storedTheme = getStoredTheme();
+
+        if (storedTheme === "light" || storedTheme === "dark") {
+          return storedTheme;
+        }
+
+        return systemDark.matches ? "dark" : "light";
+      }
+
+      function applyTheme(theme) {
+        document.documentElement.dataset.theme = theme;
+        themeValue.textContent = theme;
+        themeToggle.setAttribute(
+          "aria-label",
+          `Switch to ${theme === "dark" ? "light" : "dark"} theme`,
+        );
+        themeToggle.setAttribute("aria-pressed", String(theme === "dark"));
+      }
+
+      function tick() {
+        clock.textContent = new Date().toLocaleTimeString("en-GB", {
+          hour12: false,
+        });
+      }
+
+      applyTheme(getTheme());
+      tick();
+      setInterval(tick, 1000);
+
+      themeToggle.addEventListener("click", () => {
+        const nextTheme = getTheme() === "dark" ? "light" : "dark";
+        setStoredTheme(nextTheme);
+        applyTheme(nextTheme);
+      });
+
+      systemDark.addEventListener("change", () => {
+        const storedTheme = getStoredTheme();
+
+        if (storedTheme !== "light" && storedTheme !== "dark") {
+          applyTheme(getTheme());
+        }
+      });
+
+      const btn = document.getElementById("copyEmail");
+
+      btn.addEventListener("click", async () => {
+        const email = btn.dataset.email;
+        const v = btn.querySelector(".v");
+        const arr = btn.querySelector(".arr");
+        const oldV = v.textContent;
+        const oldA = arr.textContent;
+
+        v.textContent = "copied!";
+        arr.textContent = "\u2713";
+        btn.classList.add("copied");
+
+        setTimeout(() => {
+          v.textContent = oldV;
+          arr.textContent = oldA;
+          btn.classList.remove("copied");
+        }, 1600);
+
+        try {
+          await navigator.clipboard.writeText(email);
+        } catch (error) {
+          // Clipboard access can be unavailable in some browser contexts.
+        }
+      });
+    </script>
+  </body>
+</html>
