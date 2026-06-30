@@ -330,6 +330,38 @@ footer .dot {
   }
 }
 
+@media (max-width: 640px) {
+  main {
+    padding: clamp(24px, 5vh, 48px) clamp(20px, 5vw, 40px) 28px;
+  }
+
+  .status {
+    margin-bottom: 14px;
+  }
+
+  .command {
+    margin-bottom: 10px;
+  }
+
+  .role {
+    margin: 10px 0 18px;
+  }
+
+  .bio {
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .links {
+    margin-bottom: 16px;
+  }
+
+  .links a,
+  .links button.copy {
+    padding: 11px 14px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
